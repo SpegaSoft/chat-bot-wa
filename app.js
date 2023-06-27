@@ -2,17 +2,16 @@ const { createBot, createProvider, createFlow, addKeyword, EVENTS } = require('@
 
 const QRPortalWeb = require('@bot-whatsapp/portal')
 const BaileysProvider = require('@bot-whatsapp/provider/baileys')
-const MySQLAdapter = require('@bot-whatsapp/database/mysql')
-
+const MockAdapter = require('@bot-whatsapp/database/mock')
 /**
  * Declaramos las conexiones de MySQL
- */
+ 
 const MYSQL_DB_HOST = 'localhost'
 const MYSQL_DB_USER = 'root'
 const MYSQL_DB_PASSWORD = ''
 const MYSQL_DB_NAME = 'bot'
 const MYSQL_DB_PORT = '3306'
-
+*/
 const flowPrincipal = addKeyword(['buen día','buenas tardes','buenas noches','hola','ola','ole','buenas','atender','alguien','atiende'])
     .addAnswer(
         [
@@ -103,13 +102,7 @@ const flowGracias = addKeyword('grac').addAnswer('Espero que tu experiencia hall
 
 
 const main = async () => {
-    const adapterDB = new MySQLAdapter({
-        host: MYSQL_DB_HOST,
-        user: MYSQL_DB_USER,
-        database: MYSQL_DB_NAME,
-        password: MYSQL_DB_PASSWORD,
-        port: MYSQL_DB_PORT,
-    })
+    const adapterDB = new MockAdapter()
     const adapterFlow = createFlow([flowPrincipal,flowVoiceNote,flowInfo,flowVentas,flowServicios,flowSoporte,flowGracias])
     const adapterProvider = createProvider(BaileysProvider)
     createBot({
